@@ -5,7 +5,10 @@ import custom
 
 root = tkinter.Tk()
 root.title('Inventory')
-root.geometry("1300x650")
+root.geometry("1300x650+100+50")
+
+style = ttk.Style()
+style.configure("Treeview.insert" , font=(None , 50))
 
 def success(nameEnt,cateEnt,colorEnt,sizeEnt,tpriceEnt,payrEnt,contactEnt,MNameEnt,MpriceEnt,shipEnt,TlpaidEnt):
     custom.writeDataCustomer(nameEnt,cateEnt,colorEnt,sizeEnt,tpriceEnt,payrEnt,contactEnt,MNameEnt,MpriceEnt,shipEnt,TlpaidEnt)
@@ -24,14 +27,30 @@ def success(nameEnt,cateEnt,colorEnt,sizeEnt,tpriceEnt,payrEnt,contactEnt,MNameE
 
 def cEntry():
     frame = tkinter.ttk.Frame(root)
-    frame.place(x=50 , y= 50 , relheight=0.6 , relwidth=0.88)
+    frame.place(x=50 , y= 50 , relheight=0.75 , relwidth=0.88)
 
     entries = custom.readDataCustomer()
-    resultBox = tkinter.Text(frame , width=800 , height=200)
-    resultBox.grid(row=2 , column=0 , columnspan=2 , pady=10)
-    resultBox.insert(tkinter.END , "\tCustomer\t\tCategory\t\tColour\t\tSize\t\tTotal Price\t\tPayment Received\t\tPayment Left\t\t\tContact\n\n")
+    entryView = tkinter.ttk.Treeview(frame,height=18)
+    entryView["columns"] = ("1", "2", "3","4", "5", "6","7")
+    entryView.column("#0" ,width=50, minwidth=50)
+    entryView.column("1" ,width=50, minwidth=50)
+    entryView.column("2" ,width=50, minwidth=50)
+    entryView.column("3" ,width=50, minwidth=50)
+    entryView.column("4" ,width=50, minwidth=50)
+    entryView.column("5" ,width=50, minwidth=50)
+    entryView.column("6" ,width=50, minwidth=50)
+    entryView.column("7" ,width=50, minwidth=50)
+    entryView.heading("#0",text="Name", anchor=tkinter.W)
+    entryView.heading("1",text="Category", anchor=tkinter.W)
+    entryView.heading("2",text="Color", anchor=tkinter.W)
+    entryView.heading("3",text="Size", anchor=tkinter.W)
+    entryView.heading("4",text="Price", anchor=tkinter.W)
+    entryView.heading("5",text="Payment Receieved", anchor=tkinter.W)
+    entryView.heading("6",text="Payment Left", anchor=tkinter.W)
+    entryView.heading("7",text="Contact", anchor=tkinter.W)
     for entry in entries:
-        resultBox.insert(tkinter.END , f"\t{entry[1]}\t\t{entry[2]}\t\t{entry[3]}\t\t{entry[4]}\t\t{entry[5]}\t\t{entry[6]}\t\t\t{entry[7]}\t\t{entry[8]}\n")
+        entryView.insert("" , 'end' , text=f'{entry[1]}' , values=(f'{entry[2]}' , f'{entry[3]}',f'{entry[4]}',f'{entry[5]}',f'{entry[6]}',f'{entry[7]}',f'{entry[8]}'))
+    entryView.pack(fill = tkinter.X)
     cbtn = tkinter.ttk.Button(frame , text='Close',command=lambda : frame.destroy())
     cbtn.place(relx=0.5 , rely=0.9)
 
@@ -101,14 +120,34 @@ def add():
 
 def mEntry():
     frame = tkinter.ttk.Frame(root)
-    frame.place(x=50 , y= 50 , relheight=0.6 , relwidth=0.95)
+    frame.place(x=50 , y= 50 , relheight=0.75 , relwidth=0.88)
 
     entries = custom.readDataMerchant()
-    resultBox = tkinter.Text(frame , width=800 , height=200)
-    resultBox.grid(row=2 , column=0 , columnspan=2 , pady=10)
-    resultBox.insert(tkinter.END , "Customer\t\tCategory\t\tPrice\t\tColour\t\tSize\t\tShipping\t\tTotal Price\t\tTotal Paid\t\tTotal Left\t\tCustomer\n\n")
+    entryView = tkinter.ttk.Treeview(frame,height=18)
+    entryView["columns"] = ("1", "2", "3","4", "5", "6","7","8","9")
+    entryView.column("#0" ,width=30, minwidth=50)
+    entryView.column("1" ,width=30, minwidth=50)
+    entryView.column("2" ,width=30, minwidth=50)
+    entryView.column("3" ,width=30, minwidth=50)
+    entryView.column("4" ,width=30, minwidth=50)
+    entryView.column("5" ,width=30, minwidth=50)
+    entryView.column("6" ,width=30, minwidth=50)
+    entryView.column("7" ,width=30, minwidth=50)
+    entryView.column("8" ,width=30, minwidth=50)
+    entryView.column("9" ,width=30, minwidth=50)
+    entryView.heading("#0",text="Name", anchor=tkinter.W)
+    entryView.heading("1",text="Order", anchor=tkinter.W)
+    entryView.heading("2",text="Merchant Price", anchor=tkinter.W)
+    entryView.heading("3",text="Colour", anchor=tkinter.W)
+    entryView.heading("4",text="Size", anchor=tkinter.W)
+    entryView.heading("5",text="Shipping", anchor=tkinter.W)
+    entryView.heading("6",text="Total Price", anchor=tkinter.W)
+    entryView.heading("7",text="Total Paid", anchor=tkinter.W)
+    entryView.heading("8",text="Total Left", anchor=tkinter.W)
+    entryView.heading("9",text="Ordered For", anchor=tkinter.W)
     for entry in entries:
-        resultBox.insert(tkinter.END , f"{entry[1]}\t\t{entry[2]}\t\t{entry[3]}\t\t{entry[4]}\t\t{entry[5]}\t\t{entry[6]}\t\t{entry[7]}\t\t{entry[8]}\t\t{entry[9]}\t\t{entry[10]}\n")
+        entryView.insert("" , 'end' , text=f'{entry[1]}' , values=(f'{entry[2]}' , f'{entry[3]}',f'{entry[4]}',f'{entry[5]}',f'{entry[6]}',f'{entry[7]}',f'{entry[8]}',f'{entry[9]}',f'{entry[10]}'))
+    entryView.pack(fill = tkinter.X)
     cbtn = tkinter.ttk.Button(frame , text='Close',command=lambda : frame.destroy())
     cbtn.place(relx=0.5 , rely=0.9)
 
@@ -135,10 +174,10 @@ mRecordBtn = tkinter.ttk.Button(root , text='Show all Merchant Records' , comman
 profitBtn = tkinter.ttk.Button(root , text='Check Profit' , command=checkProfit)
 closeBtn = tkinter.ttk.Button(root , text='Exit' , command=close)
 
-writeBtn.grid(row=0 , column=0 , padx=5,pady=5 )
-cRecordBtn.grid(row=0 , column= 1 , padx=20 , pady=5)
-mRecordBtn.grid(row=0 , column=2 , padx=5, pady=5)
-profitBtn.grid(row=0 , column=3 , padx=20, pady=5)
-closeBtn.grid(row=0 , column=4 , padx=5, pady=5)
+writeBtn.place(x=100 , y=10)
+cRecordBtn.place(x=250 , y=10)
+mRecordBtn.place(x=500 , y=10)
+profitBtn.place(x=750 , y=10)
+closeBtn.place(x=920 , y=10)
 
 root.mainloop()
